@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Products from './Components/Products';
+import { Provider, useSelector } from 'react-redux';
+import store from './Store/store.js';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "./Components/Navbar.jsx";
+import ErrorPage from "./Components/ErrorPage.jsx";
+import ProductInfo from "./Components/ProductInfo.jsx";
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+      <BrowserRouter>
+          <Navbar />
+          <div className="container">
+            <Routes>
+                {
+                  ['products', '/','home'].map((path, index) => <Route path={path} key={index} element={<Products />} />)
+                }
+            <Route path='/products/:id' element={<ProductInfo />} />
+            <Route path="*" element={<ErrorPage />} />
+
+
+
+            </Routes>
+          </div>
+        </BrowserRouter>
+
+      </div>
+    </Provider>
+
   );
 }
 
